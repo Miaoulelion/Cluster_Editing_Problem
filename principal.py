@@ -1,42 +1,29 @@
 from operator import itemgetter, attrgetter
+from collections import defaultdict
 import fileinput
 
 Arretes=[]
-
-Arborescence=[]
-
 
 for line in fileinput.input():
     if line[0].isdigit():
         line=line.split()
         Arretes.append((int(line[0]),int(line[1]))) 
 
+fileinput.close()
 Arretes=sorted(Arretes)
-connexe={}
 
 
-
-def CreerGraphe(Graph,Arretes):
-    i=1
-    Graph={}
-#for i in range(1,len(Arretes)-1,1):
-    while(i<len(Arretes)-1):
-        voisins=[]
-        voisins.append(Arretes[i-1][1])
-        while(Arretes[i-1][0]==Arretes[i][0]):
-            voisins.append(Arretes[i][1])
-            i=i+1
-        Graph[Arretes[i-1][0]]=voisins
-        i=i+1
+def CreerGraphe(Arretes):
+    Graph=defaultdict(list)
+    for node1, node2 in Arretes:
+        Graph[node1].append(node2)
+        Graph[node2].append(node1)
     return Graph
 
-g={}
-G=CreerGraphe(g,Arretes)
+print(Arretes)
+print(CreerGraphe(Arretes))
+    
 
 
-print(Arretes[20][0])
-print(sorted(Arretes))
-print(len(Arretes))
-print(G)
 
-fileinput.close()
+
