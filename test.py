@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-arretes=[(1,2),(1,3),(1,4),(2,3),(8,2),(9,1)]
+arretes=[(1,2),(1,3),(1,4),(2,3),(8,2),(9,1),(3,2),(3,1)]
 
 i=0
 dico=defaultdict(list)
@@ -10,11 +10,18 @@ for i in range(0,10):
     while(y<3):
         y=y+1
         i=i+1
-    print(i)
+    #print(i)
 
 
 for e1, e2 in arretes:
     dico[e1].append(e2)
+print(dico)
+
+for node in dico:
+    sommet=set(dico[node])
+    for voisin in sommet:
+        voisinsVoisin=set(dico[voisin])
+        print(sommet & voisinsVoisin)
 
 
 print(dico[1][2])

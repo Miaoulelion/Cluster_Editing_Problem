@@ -20,8 +20,25 @@ def CreerGraphe(Arretes):
         Graph[node2].append(node1)
     return Graph
 
-print(Arretes)
-print(CreerGraphe(Arretes))
+Graph=CreerGraphe(Arretes)
+
+liste=[]
+
+for node in Graph:
+    voisins=set(Graph[node])
+    for v in voisins:
+        voisins_2nd=set(Graph[int(v)])
+        print("Nombre voisins communs entre " + str(node) + " et " + str(v) + " est de " + str(len(voisins & voisins_2nd)))
+    #print(type(voisin))
+    #for VoisinDuVoisin in voisin:
+
+    #print(voisin)
+
+
+
+#print(Arretes)
+print(Graph)
+#print(Graph[8][1])
     
 
 
