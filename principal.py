@@ -22,10 +22,11 @@ def CreerGraphe(Arretes):
 
 Graph=CreerGraphe(Arretes)
 
-liste=[]
 
 for node in Graph:
     voisins=set(Graph[node])
+    nbrVoisin=float(len(voisins))
+    print("**********Changement de sommet************")
     for v in voisins:
         voisins_2nd=set(Graph[int(v)])
         print("Nombre voisins communs entre " + str(node) + " et " + str(v) + " est de " + str(len(voisins & voisins_2nd)))

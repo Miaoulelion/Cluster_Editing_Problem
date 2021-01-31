@@ -17,6 +17,8 @@ for e1, e2 in arretes:
     dico[e1].append(e2)
 print(dico)
 
+"""
+
 for node in dico:
     sommet=set(dico[node])
     for voisin in sommet:
@@ -25,7 +27,7 @@ for node in dico:
 
 
 print(dico[1][2])
-
+"""
 
 def CreerGraphe(Arretes):
     i=1
@@ -42,4 +44,6 @@ def CreerGraphe(Arretes):
         i=i+1
     return Graph
 
-
+a=int(2)
+b=int(5)
+print(a/b)
