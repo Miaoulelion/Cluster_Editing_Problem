@@ -34,9 +34,19 @@ def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
     return Graph
 
 
+def ExisteArreteGraph(Graph,node1,node2):
+    for i in range(0,len(Graph[node1])-1):
+        if Graph[node1][i]==node2:
+            return True
+    for y in range(0,len(Graph[node2])-1):
+        if Graph[node2][y]==node1:
+            return True
+    return False
+
 def AjouterArreteGraph(Graph,Name_node_1,Name_node_2):
-    Graph[Name_node_1].append(Name_node_2)
-    Graph[Name_node_2].append(Name_node_1)
+    if not ExisteArreteGraph(Graph,Name_node_1,Name_node_2):
+        Graph[Name_node_1].append(Name_node_2)
+        Graph[Name_node_2].append(Name_node_1)
     return Graph
 
 def ListerArreteSupprimee(List,node1,node2):
@@ -64,8 +74,14 @@ for node in Graph:
 
 
 print(Graph)
+print("***")
 Graph=SupprimerArreteGraph(Graph,1,2)
 print(Graph)
+print("***")
+Graph=AjouterArreteGraph(Graph,1,2)
+print(Graph)
+print("***")
+
 
 #print(Arretes)
 #print(Graph[8][1])
