@@ -21,6 +21,7 @@ def CreerGraphe(Arretes):
         Graph[node2].append(node1)
     return Graph
 
+#Création du graph (dictionnaire) à partir des input.
 Graph=CreerGraphe(Arretes)
 
 
@@ -42,6 +43,7 @@ def ExisteArreteGraph(Graph,node1,node2):
     for i in range(0,len(Graph[node1])-1):
         if Graph[node1][i]==node2:
             return True
+    #Il serait anormal d'avoir une arrête enregistrée seulement pour un sommet.
     for y in range(0,len(Graph[node2])-1):
         if Graph[node2][y]==node1:
             print("Il se peut qu'il y ait une erreur dans les donnees")
@@ -68,7 +70,7 @@ def ListerArreteAjoutee(List,node1,node2):
 
 
 
-
+#Renvoie les voisins d'un sommet et leur % de voisins partagés
 def GetDegreDeConnexionNode(Graph,node):
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
@@ -79,7 +81,8 @@ def GetDegreDeConnexionNode(Graph,node):
         ListeDegre.append((degSommet/nbrVoisin))
     return ListeDegre
 
-
+#On donne un graph et un sommet, renvoie true si le sommet peut former une clique
+#Car tous ses voisins a les mêmes voisins. Il ne reste plus qu'à supprimer certaines arrêtes.
 def FormeUneClique(Graphe,node):
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
@@ -93,8 +96,20 @@ def FormeUneClique(Graphe,node):
 
 
 Graph=AjouterArreteGraph(Graph,2,7)
+Graph=SupprimerArreteGraph(Graph,2,8)
+UnionClique=True
+
+#Tant que ce n'est pas une union de clique, on continue
+while not UnionClique:
+    NodeCliq=[]
+    #On parcourt les sommets du graphe et on marque les sommets
+    #qui appartiennnet à une clique (éventuellement à condition de supprimer des arrêtes)
+    for node in Graph:
+        if FormeUneClique(Graph,node):
+            NodeCliq.append(node)
 
 
+"""
 for node in Graph:
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
@@ -104,7 +119,7 @@ for node in Graph:
         #print("Nombre voisins communs entre " + str(node) + " et " + str(v) + " est de " + str(len(voisins & voisins_2nd)))
         degSommet=float(len(voisins & voisins_2nd)+1)
         print("Degre de connexion du sommet " + str(v) + " : " + str(degSommet/nbrVoisin))
-
+"""
 
 
 
