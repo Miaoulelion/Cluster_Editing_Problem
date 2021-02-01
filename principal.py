@@ -24,6 +24,30 @@ def CreerGraphe(Arretes):
 Graph=CreerGraphe(Arretes)
 
 
+def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
+    for i in range(0,len(Graph[Name_node_1])-1):
+        if Graph[Name_node_1][i]==Name_node_2:
+            del Graph[Name_node_1][i]
+    for y in range(0,len(Graph[Name_node_2])-1):
+        if Graph[Name_node_2][y]==Name_node_1:
+            del Graph[Name_node_2][y]
+    return Graph
+
+
+def AjouterArreteGraph(Graph,Name_node_1,Name_node_2):
+    Graph[Name_node_1].append(Name_node_2)
+    Graph[Name_node_2].append(Name_node_1)
+    return Graph
+
+def ListerArreteSupprimee(List,node1,node2):
+    List.append((node1,node2))
+    return List
+
+def ListerArreteAjoutee(List,node1,node2):
+    List.append((node1,node2))
+    return List
+
+
 for node in Graph:
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
@@ -36,14 +60,6 @@ for node in Graph:
 
     #print(voisin)
 
-def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
-    for i in range(0,len(Graph[Name_node_1])-1):
-        if Graph[Name_node_1][i]==Name_node_2:
-            del Graph[Name_node_1][i]
-    for y in range(0,len(Graph[Name_node_2])-1):
-        if Graph[Name_node_2][y]==Name_node_1:
-            del Graph[Name_node_2][y]
-    return Graph
 
 
 
