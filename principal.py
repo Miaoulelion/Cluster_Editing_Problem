@@ -24,6 +24,10 @@ def CreerGraphe(Arretes):
 Graph=CreerGraphe(Arretes)
 
 
+
+
+
+
 def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
     for i in range(0,len(Graph[Name_node_1])-1):
         if Graph[Name_node_1][i]==Name_node_2:
@@ -40,6 +44,7 @@ def ExisteArreteGraph(Graph,node1,node2):
             return True
     for y in range(0,len(Graph[node2])-1):
         if Graph[node2][y]==node1:
+            print("Il se peut qu'il y ait une erreur dans les donnees")
             return True
     return False
 
@@ -58,34 +63,61 @@ def ListerArreteAjoutee(List,node1,node2):
     return List
 
 
+
+
+
+
+
+
+def GetDegreDeConnexionNode(Graph,node):
+    voisins=set(Graph[node])
+    nbrVoisin=float(len(voisins))
+    ListeDegre=[]
+    for v in voisins:
+        voisins_2nd=set(Graph[int(v)])
+        degSommet=float(len(voisins & voisins_2nd)+1)
+        ListeDegre.append((degSommet/nbrVoisin))
+    return ListeDegre
+
+
+def FormeUneClique(Graphe,node):
+    voisins=set(Graph[node])
+    nbrVoisin=float(len(voisins))
+    for v in voisins:
+        voisins_2nd=set(Graph[int(v)])
+        degSommet=float(len(voisins & voisins_2nd)+1)
+        if degSommet/nbrVoisin<1:
+            return False
+    return True
+
+
+
+Graph=AjouterArreteGraph(Graph,2,7)
+
+
 for node in Graph:
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
-    print("**********Changement de sommet************")
+    print("**********Changement de sommet " + str(node) + "************")
     for v in voisins:
         voisins_2nd=set(Graph[int(v)])
-        print("Nombre voisins communs entre " + str(node) + " et " + str(v) + " est de " + str(len(voisins & voisins_2nd)))
-    #print(type(voisin))
-    #for VoisinDuVoisin in voisin:
-
-    #print(voisin)
+        #print("Nombre voisins communs entre " + str(node) + " et " + str(v) + " est de " + str(len(voisins & voisins_2nd)))
+        degSommet=float(len(voisins & voisins_2nd)+1)
+        print("Degre de connexion du sommet " + str(v) + " : " + str(degSommet/nbrVoisin))
 
 
 
 
-print(Graph)
-print("***")
-Graph=SupprimerArreteGraph(Graph,1,2)
-print(Graph)
-print("***")
-Graph=AjouterArreteGraph(Graph,1,2)
-print(Graph)
-print("***")
+print(GetDegreDeConnexionNode(Graph,1))
+print(FormeUneClique(Graph,1))
+#print("***")
+#Graph=SupprimerArreteGraph(Graph,1,2)
+#print(Graph)
+#print("***")
+#Graph=AjouterArreteGraph(Graph,1,2)
+#print(Graph)
+#print("***")
 
-
-#print(Arretes)
-#print(Graph[8][1])
-    
 
 
 
