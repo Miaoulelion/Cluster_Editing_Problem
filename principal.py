@@ -10,6 +10,7 @@ for line in fileinput.input():
         Arretes.append((int(line[0]),int(line[1]))) 
 
 fileinput.close()
+
 Arretes=sorted(Arretes)
 
 
@@ -35,10 +36,22 @@ for node in Graph:
 
     #print(voisin)
 
+def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
+    for i in range(0,len(Graph[Name_node_1])-1):
+        if Graph[Name_node_1][i]==Name_node_2:
+            del Graph[Name_node_1][i]
+    for y in range(0,len(Graph[Name_node_2])-1):
+        if Graph[Name_node_2][y]==Name_node_1:
+            del Graph[Name_node_2][y]
+    return Graph
 
+
+
+print(Graph)
+Graph=SupprimerArreteGraph(Graph,1,2)
+print(Graph)
 
 #print(Arretes)
-print(Graph)
 #print(Graph[8][1])
     
 
