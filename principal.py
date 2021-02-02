@@ -11,11 +11,7 @@ for line in fileinput.input():
         line=line.split()
         Arretes.append((int(line[0]),int(line[1]))) 
 
-
-
 Graph.add_edges_from(Arretes)
-
-
 fileinput.close()
 
 #Arretes=sorted(Arretes)
@@ -29,9 +25,6 @@ for v in Graph:
     print(str(v) + " : " + str(Graph[v]))
 
 
-
-#Graph=AjouterArreteGraph(Graph,2,7)
-#Graph=SupprimerArreteGraph(Graph,2,8)
 UnionClique=False
 k=1
 #Tant que ce n'est pas une union de clique, on continue
@@ -49,7 +42,7 @@ while not UnionClique:
                 print(str(v) + " " + str(w))
                 #IL FAUT MARQUER LES SOMMETS DE CETTE CLIQUE POUR 
                 #PROTEGER LEURS ARRETES INTERNES A LA CLIQUE
-    ListClique.remove(PlusGrandeClique)
+    #ListClique.remove(PlusGrandeClique)
     k=k+1
     if k>4:
         UnionClique=True
