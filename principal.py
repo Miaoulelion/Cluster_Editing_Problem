@@ -121,7 +121,7 @@ for node in Graph:
         print("Degre de connexion du sommet " + str(v) + " : " + str(degSommet/nbrVoisin))
 """
 
-
+ 
 
 print(GetDegreDeConnexionNode(Graph,1))
 print(FormeUneClique(Graph,1))
