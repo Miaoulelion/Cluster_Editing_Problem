@@ -47,3 +47,14 @@ def CreerGraphe(Arretes):
 a=int(2)
 b=int(5)
 print(a/b)
+
+s=set()
+s.add(1)
+s.add(2)
+
+l=[(1),(3)]
+w=set(l)
+w.add(1)
+w.add(3)
+
+print(s-w)

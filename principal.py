@@ -26,19 +26,24 @@ print(list(nx.enumerate_all_cliques(Graph)))
 
 
 for v in Graph:
-    print(Graph[v])
+    print(str(v) + " : " + str(Graph[v]))
 
-print(Graph[1][2])
+
 
 #Graph=AjouterArreteGraph(Graph,2,7)
 #Graph=SupprimerArreteGraph(Graph,2,8)
-UnionClique=True
+UnionClique=False
 
 #Tant que ce n'est pas une union de clique, on continue
 while not UnionClique:
-    ListClique=nx.enumerate_all_cliques(Graph)
-    for v in Graph:
-        
+    ListClique=list(nx.enumerate_all_cliques(Graph))
+    PlusGrandeClique=ListClique[len(ListClique)-1]
+    for v in PlusGrandeClique:
+        if len(PlusGrandeClique)-1<Graph.degree[v]:
+            VoisinsExterieursCliques=set(neighbors(Graph,v))
+            SommetASupprimer=VoisinsExterieursCliques-set(PlusGrandeClique)
+            Graph.remove_edge(v,2)
+    UnionClique=True
     #for v in Graph:
         #if Graph.degree[v]>
 
@@ -46,8 +51,11 @@ while not UnionClique:
     #qui appartiennnet a une clique (eventuellement a condition de supprimer des arretes)
     #for node in Graph:
         #if (len(Graph[node])<4):#ajouter les autres conditions
+print("***************")
+print("***************")
 
-
+for v in Graph:
+    print(str(v) + " : " + str(Graph[v]))
 
 
 
