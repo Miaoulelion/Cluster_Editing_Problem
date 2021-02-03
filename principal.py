@@ -13,17 +13,18 @@ fileinput.close()
 Graph.add_edges_from(Arretes)
 nbrSommetsGraph=len(Graph)
 
-#for v in Graph:
- #   print(str(v) + " : " + str(Graph[v]))
+for v in Graph:
+    print(str(v) + " : " + str(Graph[v]))
 
 ListeSommetsTraites=set()
 UnionClique=False
 k=1
 
+
 #Tant que ce n'est pas une union de clique, on continue
 while not UnionClique:
     print(k)
-    ListClique=list(nx.enumerate_all_cliques(Graph))
+    ListClique=list(nx.enumerate_all_cliques(Graph)) 
     PlusGrandeClique=ListClique[len(ListClique)-1*k]
     for v in PlusGrandeClique:
         if (len(PlusGrandeClique)-1<Graph.degree[v]):
@@ -39,9 +40,9 @@ while not UnionClique:
         UnionClique=True
 
 
-
-#for v in Graph:
- #   print(str(v) + " : " + str(Graph[v]))
+print()
+for v in Graph:
+    print(str(v) + " : " + str(Graph[v]))
 
 
 
