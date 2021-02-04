@@ -81,9 +81,16 @@ def GetDegreDeConnexionNode(Graph,node):
         ListeDegre.append((degSommet/nbrVoisin))
     return ListeDegre
 
+def GetDegreNode(Graph,node):
+    return len(Graph[node])
+
+
+def GetVoisins(Graph,node):
+    return Graph[node]
+
 #On donne un graph et un sommet, renvoie true si le sommet peut former une clique
 #Car tous ses voisins a les memes voisins. Il ne reste plus qu'a supprimer certaines arretes.
-def FormeUneClique(Graphe,node):
+def EstUneClique(Graphe,node):
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
     for v in voisins:
@@ -105,7 +112,7 @@ while not UnionClique:
     #On parcourt les sommets du graphe et on marque les sommets
     #qui appartiennnet a une clique (eventuellement a condition de supprimer des arretes)
     for node in Graph:
-        if FormeUneClique(Graph,node):
+        if EstUneClique(Graph,node):
             NodeCliq.append(node)
 
 
@@ -124,7 +131,7 @@ for node in Graph:
  
 
 print(GetDegreDeConnexionNode(Graph,1))
-print(FormeUneClique(Graph,1))
+print(EstUneClique(Graph,1))
 #print("***")
 #Graph=SupprimerArreteGraph(Graph,1,2)
 #print(Graph)

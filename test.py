@@ -1,49 +1,27 @@
 from collections import defaultdict
+import fileinput
 
-arretes=[(1,2),(1,3),(1,4),(2,3),(8,2),(9,1),(3,2),(3,1)]
+Arretes=[]
 
-i=0
-dico=defaultdict(list)
+for line in fileinput.input():
+    if line[0].isdigit():
+        line=line.split()
+        Arretes.append((int(line[0]),int(line[1]))) 
 
-for i in range(0,10):
-    y=0
-    while(y<3):
-        y=y+1
-        i=i+1
-    #print(i)
+fileinput.close()
 
+Arretes=sorted(Arretes)
 
-for e1, e2 in arretes:
-    dico[e1].append(e2)
-print(dico)
-
-"""
-
-for node in dico:
-    sommet=set(dico[node])
-    for voisin in sommet:
-        voisinsVoisin=set(dico[voisin])
-        print(sommet & voisinsVoisin)
-
-
-print(dico[1][2])
-"""
 
 def CreerGraphe(Arretes):
-    i=1
-    Graph={}
-    Arretes=sorted(Arretes)
-#for i in range(1,len(Arretes)-1,1):
-    while(i<len(Arretes)-1):
-        voisins=[]
-        voisins.append(Arretes[i-1][1])
-        while(Arretes[i-1][0]==Arretes[i][0]):
-            voisins.append(Arretes[i][1])
-            i=i+1
-        Graph[Arretes[i-1][0]]=voisins
-        i=i+1
+    Graph=defaultdict(list)
+    for node1, node2 in Arretes:
+        Graph[node1].append(node2)
+        Graph[node2].append(node1)
     return Graph
 
-a=int(2)
-b=int(5)
-print(a/b)
+#Creation du graph (dictionnaire) a partir des input.
+Graph=CreerGraphe(Arretes)
+
+print(Graph[1])
+print(Graph)
