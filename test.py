@@ -22,6 +22,7 @@ def CreerGraphe(Arretes):
 
 #Creation du graph (dictionnaire) a partir des input.
 Graph=CreerGraphe(Arretes)
-
+a=Graph[1]
+print(type(a))
 print(Graph[1])
 print(Graph)
