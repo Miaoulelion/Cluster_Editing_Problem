@@ -4,15 +4,19 @@ from collections import defaultdict
 import fileinput
 
 Arretes=[]
+Graph=defaultdict(list)
 
 for line in fileinput.input():
     if line[0].isdigit():
         line=line.split()
-        Arretes.append((int(line[0]),int(line[1]))) 
-
+        Graph[int(line[0])].append(int(line[1]))
+        Graph[int(line[1])].append(int(line[0]))
+        #Arretes.append((int(line[0]),int(line[1]))) 
+        
+#print(Graph)
 fileinput.close()
 
-Arretes=sorted(Arretes)
+#Arretes=sorted(Arretes)
 
 
 
@@ -24,7 +28,7 @@ def CreerGraphe(Arretes):
     return Graph
 
 #Creation du graph (dictionnaire) a partir des input.
-Graph=CreerGraphe(Arretes)
+#Graph=CreerGraphe(Arretes)
 
 
 
@@ -141,71 +145,36 @@ def ClasserParDegree(Graph):
     return sorted(Classement,key=itemgetter(1), reverse=True)
 
 
-A=ClasserParDegree(Graph)
-
-for i in A:
-    print(i)
+GraphByDegree=ClasserParDegree(Graph)
 
 
 
-UnionClique=False
-k=0
-while not UnionClique:
-    Visite=[]
-    for node in Graph:#Faire une copie du graph et supprimer les arrêtes
-        #print(node)
-        Clique=GetClique(Graph,node)
-        #print("premiere")
-        for v in Clique:
-            #print("deuxieme")
-            if len(Clique)-1<GetDegreNode(Graph,v):
-                ListeASupprimer=set()
-                ListeASupprimer=set(Graph[v])-set(Clique)
-                ListeASupprimer=list(ListeASupprimer)
-                for w in ListeASupprimer:
-                    Graph=SupprimerArreteGraph(Graph,v,w)
-                    #print("Arrete en suppression : " + str(v) + " et "+ str(w))
-                    #print(Graph)
-    if k>10:
-        UnionClique=True
-    k=k+1
-    #print("Nombre de tour :" +str(k))
-        
-    
-B=ClasserParDegree(Graph)
-print("*******")
-for i in B:
-    print(i)
-
-for v in Graph:
-    print(EstUneClique(Graph,v))
+#for i in A:
+    #print(i)
 
 
+
+for s in Graph:#Faire une copie du graph et supprimer les arrêtes
+    Clique=GetClique(Graph,s)
+    for v in Clique:
+        if len(Clique)-1<GetDegreNode(Graph,v):
+            ListeASupprimer=set()
+            ListeASupprimer=set(Graph[v])-set(Clique)
+            ListeASupprimer=list(ListeASupprimer)
+            for w in ListeASupprimer:
+                Graph=SupprimerArreteGraph(Graph,v,w)
 
         
+  
 
+#B=ClasserParDegree(Graph)
+#print("************")
+#for i in B:
+    #print(i)
 
-"""
-for node in Graph:
-    voisins=set(Graph[node])
-    nbrVoisin=float(len(voisins))
-    print("**********Changement de sommet " + str(node) + "************")
-    for v in voisins:
-        voisins_2nd=set(Graph[int(v)])
-        #print("Nombre voisins communs entre " + str(node) + " et " + str(v) + " est de " + str(len(voisins & voisins_2nd)))
-        degSommet=float(len(voisins & voisins_2nd)+1)
-        print("Degre de connexion du sommet " + str(v) + " : " + str(degSommet/nbrVoisin))
-"""
-"""
-print(Graph)
+#for v in Graph:
+    #print(EstUneClique(Graph,v))
 
-print(GetDegreDeConnexionNode(Graph,1))
-print(GetClique(Graph,3))
-print(EstUneClique(Graph,1))
-print(GetVoisins(Graph,1))
-print(GetDegreNode(Graph,1))
-
-"""
 
 
 
