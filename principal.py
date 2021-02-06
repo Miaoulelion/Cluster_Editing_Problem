@@ -1,3 +1,4 @@
+from random import *
 from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
@@ -12,7 +13,8 @@ for line in fileinput.input():
 fileinput.close()
 
 Arretes=sorted(Arretes)
-print(Arretes)
+
+
 
 def CreerGraphe(Arretes):
     Graph=defaultdict(list)
@@ -26,16 +28,30 @@ Graph=CreerGraphe(Arretes)
 
 
 
+def supprimerArete(Graphe, u,v):
+    i = 0
+    while i < len(Graphe[u]):
+        if Graphe[u][i] == v:
+            del Graphe[u][i]
+        i+=1
+    j = 0
+    while j < len(Graphe[v]):
+        if Graphe[v][j] == u:
+            del Graphe[v][j]
+        j+=1
+    return Graphe
 
 
 
 def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
-    for i in range(0,len(Graph[Name_node_1])-1):
+    for i in range(0,len(Graph[Name_node_1])):
         if Graph[Name_node_1][i]==Name_node_2:
             del Graph[Name_node_1][i]
-    for y in range(0,len(Graph[Name_node_2])-1):
+            break
+    for y in range(0,len(Graph[Name_node_2])):
         if Graph[Name_node_2][y]==Name_node_1:
             del Graph[Name_node_2][y]
+            break
     return Graph
 
 
@@ -88,18 +104,25 @@ def GetDegreNode(Graph,node):
 def GetVoisins(Graph,node):
     return Graph[node]
 
+
+
 def GetClique(Graph,node):
-    voisinsClique=GetVoisins(Graph,node)
-    for v in voisinsClique:
-        voisins_2nd=set(Graph[v])
-        voisinsClique=voisins_2nd & set(voisinsClique)
-        voisinsClique.add(v)
-    voisinsClique.add(node)
-    return voisinsClique
+    ListeClique=set()
+    ListeClique.add(node)
+    Voisins=set(Graph[node])
+    for v in Voisins:
+        VoisinsDuVoisin=set(Graph[v])
+        if (len(VoisinsDuVoisin & Voisins))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
+            ListeClique.add(v)
+    if len(ListeClique)<2:
+        Voisins=list(Voisins)
+        if len(Voisins)>1:
+            ListeClique.add(Voisins[randint(0,len(Voisins)-1)])
+        elif len(Voisins)==1:
+            ListeClique.add(Voisins[0])
+    return list(ListeClique)
 
 
-#On donne un graph et un sommet, renvoie true si le sommet peut former une clique
-#Car tous ses voisins a les memes voisins. Il ne reste plus qu'a supprimer certaines arretes.
 def EstUneClique(Graphe,node):
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
@@ -111,19 +134,55 @@ def EstUneClique(Graphe,node):
     return True
 
 
+def ClasserParDegree(Graph):
+    Classement=[]
+    for v in Graph:
+        Classement.append((v,GetDegreNode(Graph,v)))
+    return sorted(Classement,key=itemgetter(1), reverse=True)
 
-#Graph=AjouterArreteGraph(Graph,2,7)
-#Graph=SupprimerArreteGraph(Graph,2,8)
-UnionClique=True
 
-#Tant que ce n'est pas une union de clique, on continue
+A=ClasserParDegree(Graph)
+
+for i in A:
+    print(i)
+
+
+
+UnionClique=False
+k=0
 while not UnionClique:
-    NodeCliq=[]
-    #On parcourt les sommets du graphe et on marque les sommets
-    #qui appartiennnet a une clique (eventuellement a condition de supprimer des arretes)
-    for node in Graph:
-        Voisins=GetVoisins(Graph, node)
+    Visite=[]
+    for node in Graph:#Faire une copie du graph et supprimer les arrêtes
+        #print(node)
+        Clique=GetClique(Graph,node)
+        #print("premiere")
+        for v in Clique:
+            #print("deuxieme")
+            if len(Clique)-1<GetDegreNode(Graph,v):
+                ListeASupprimer=set()
+                ListeASupprimer=set(Graph[v])-set(Clique)
+                ListeASupprimer=list(ListeASupprimer)
+                for w in ListeASupprimer:
+                    Graph=SupprimerArreteGraph(Graph,v,w)
+                    #print("Arrete en suppression : " + str(v) + " et "+ str(w))
+                    #print(Graph)
+    if k>10:
+        UnionClique=True
+    k=k+1
+    #print("Nombre de tour :" +str(k))
+        
+    
+B=ClasserParDegree(Graph)
+print("*******")
+for i in B:
+    print(i)
 
+for v in Graph:
+    print(EstUneClique(Graph,v))
+
+
+
+        
 
 
 """
@@ -137,23 +196,16 @@ for node in Graph:
         degSommet=float(len(voisins & voisins_2nd)+1)
         print("Degre de connexion du sommet " + str(v) + " : " + str(degSommet/nbrVoisin))
 """
-
+"""
 print(Graph)
 
 print(GetDegreDeConnexionNode(Graph,1))
-print(GetClique(Graph,1))
+print(GetClique(Graph,3))
 print(EstUneClique(Graph,1))
 print(GetVoisins(Graph,1))
 print(GetDegreNode(Graph,1))
-#print("***")
-#Graph=SupprimerArreteGraph(Graph,1,2)
-#print(Graph)
-#print("***")
-#Graph=AjouterArreteGraph(Graph,1,2)
-#print(Graph)
-#print("***")
 
-
+"""
 
 
 

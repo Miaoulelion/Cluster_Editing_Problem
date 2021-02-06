@@ -1,3 +1,4 @@
+from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
 
@@ -11,7 +12,9 @@ for line in fileinput.input():
 fileinput.close()
 
 Arretes=sorted(Arretes)
-
+a=set()
+a.add(1)
+a.add(2)
 
 def CreerGraphe(Arretes):
     Graph=defaultdict(list)
@@ -22,7 +25,19 @@ def CreerGraphe(Arretes):
 
 #Creation du graph (dictionnaire) a partir des input.
 Graph=CreerGraphe(Arretes)
-a=Graph[1]
-print(type(a))
-print(Graph[1])
-print(Graph)
+
+
+def GetDegreNode(Graph,node):
+    return len(Graph[node])
+
+def ClasserParDegree(Graph):
+    Classement=[]
+    for v in Graph:
+        Classement.append((v,GetDegreNode(Graph,v)))
+    return sorted(Classement,key=itemgetter(1), reverse=True)
+
+print(ClasserParDegree(Graph))
+A=ClasserParDegree(Graph)
+
+for i in A:
+    print(i)
