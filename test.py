@@ -4,12 +4,12 @@ import fileinput
 
 Arretes=[]
 
-for line in fileinput.input():
-    if line[0].isdigit():
-        line=line.split()
+#for line in fileinput.input():
+    #if line[0].isdigit():
+        #line=line.split()
         #Arretes.append((int(line[0]),int(line[1]))) 
 
-fileinput.close()
+#fileinput.close()
 print("**")
 # Arretes=sorted(Arretes)
 # a=set()
@@ -30,4 +30,5 @@ print("**")
 # def GetDegreNode(Graph,node):
 #     return len(Graph[node])
 
-
+liste=[(1,2),(10,5)]
+print(liste[:][0])

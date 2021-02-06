@@ -1,4 +1,5 @@
-from random import *
+import random
+from copy import copy
 import sys
 from operator import itemgetter, attrgetter
 from collections import defaultdict
@@ -86,7 +87,7 @@ def GetClique(Graph,node):
     if len(ListeClique)<2:
         Voisins=list(Voisins)
         if len(Voisins)>1:
-            ListeClique.add(Voisins[randint(0,len(Voisins)-1)])
+            ListeClique.add(Voisins[random.randint(0,len(Voisins)-1)])
         elif len(Voisins)==1:
             ListeClique.add(Voisins[0])
     return list(ListeClique)
@@ -110,6 +111,21 @@ def ClasserParDegree(Graph):
         Classement.append((v,GetDegreNode(Graph,v)))
     return sorted(Classement,key=itemgetter(1), reverse=True)
 
+def VoisinCliqueFortementConnecte(Graph,cliq,critere):
+    ListeArrete=[]
+    Liste=[]
+    Clique=set(cliq)
+    for v in Clique:
+        VoisinClique=set(Graph[v])
+        for w in (VoisinClique - Clique):
+            if len(Clique - set(Graph[w]))<=critere and not(w in Liste):
+                Liste.append(w)
+                nonAdj_node_cliq=list(Clique - set(Graph[w]))
+                for i in nonAdj_node_cliq:
+                    ListeArrete.append((w,i))
+                return ListeArrete
+
+
 #Permet de classer les sommets par degré, prochaine amélioration
 GraphByDegree=ClasserParDegree(Graph)
 
@@ -118,6 +134,8 @@ GraphByDegree=ClasserParDegree(Graph)
 #autour des cliques potentielles
 for s in Graph:
     Clique=GetClique(Graph,s)
+    print(Clique)
+    print(VoisinCliqueFortementConnecte(Graph,Clique,2))
     for v in Clique:
         if len(Clique)-1<GetDegreNode(Graph,v):
             ListeASupprimer=set()
@@ -125,7 +143,7 @@ for s in Graph:
             ListeASupprimer=list(ListeASupprimer)
             for w in ListeASupprimer:
                 Graph=SupprimerArreteGraph(Graph,v,w)
-                print(str(v) + " " + str(w))
+                #print(str(v) + " " + str(w))
         
 
 
