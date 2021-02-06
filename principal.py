@@ -1,4 +1,5 @@
 from random import *
+import sys
 from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
@@ -44,7 +45,7 @@ def ExisteArreteGraph(Graph,node1,node2):
     #Il serait anormal d'avoir une arrete enregistree seulement pour un sommet.
     for y in range(0,len(Graph[node2])-1):
         if Graph[node2][y]==node1:
-            print("Il se peut qu'il y ait une erreur dans les donnees")
+            sys.stderr.write("Il se peut qu'il y ait une erreur dans les donnees")
             return True
     return False
 
@@ -98,6 +99,7 @@ def EstUneClique(Graphe,node):
         voisins_2nd=set(Graph[int(v)])
         degSommet=float(len(voisins & voisins_2nd)+1)
         if degSommet/nbrVoisin<1:
+            sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
             return False
     return True
 
@@ -125,11 +127,11 @@ for s in Graph:
                 Graph=SupprimerArreteGraph(Graph,v,w)
                 print(str(v) + " " + str(w))
         
-  
+
 
 #Vérification si les sommets forment bien des cliques
 for v in Graph:
-    print(EstUneClique(Graph,v))
+    EstUneClique(Graph,v)
 
 
 
