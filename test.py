@@ -1,8 +1,43 @@
 from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
+import time
 
+tic = time.perf_counter()
+    
+    
 Arretes=[]
+
+for line in fileinput.input():
+    if line[0].isdigit():
+        line=line.split()
+        Arretes.append((int(line[0]),int(line[1]))) 
+
+fileinput.close()
+
+Arretes=sorted(Arretes)
+
+
+def CreerGraphe(Arretes):
+    Graph=defaultdict(list)
+    for node1, node2 in Arretes:
+        Graph[node1].append(node2)
+        Graph[node2].append(node1)
+    return Graph
+
+#Creation du graph (dictionnaire) a partir des input.
+Graph=CreerGraphe(Arretes)
+toc = time.perf_counter()
+print(f"créer le graphe en {toc - tic:0.4f} secondes")
+
+
+
+
+# from operator import itemgetter, attrgetter
+# from collections import defaultdict
+# import fileinput
+
+# Arretes=[]
 
 #for line in fileinput.input():
     #if line[0].isdigit():
@@ -10,7 +45,7 @@ Arretes=[]
         #Arretes.append((int(line[0]),int(line[1]))) 
 
 #fileinput.close()
-print("**")
+# print("**")
 # Arretes=sorted(Arretes)
 # a=set()
 # a.add(1)
@@ -30,5 +65,5 @@ print("**")
 # def GetDegreNode(Graph,node):
 #     return len(Graph[node])
 
-liste=[(1,2),(10,5)]
-print(liste[:][0])
+# liste=[(1,2),(10,5)]
+# print(liste[:][0])

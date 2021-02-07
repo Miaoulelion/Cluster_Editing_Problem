@@ -132,10 +132,28 @@ GraphByDegree=ClasserParDegree(Graph)
 
 #Algo principale de suppression des arrêtes
 #autour des cliques potentielles
+
+for s in Graph:
+    Alea=random.randint(0,10)
+    if Alea<5: 
+        Clique=GetClique(Graph,s)
+        AjoutArrete=VoisinCliqueFortementConnecte(Graph, Clique, 3)
+        if (AjoutArrete is not None) and (len(AjoutArrete)>0) and (len(AjoutArrete)<len(Clique)):
+            for ajout in AjoutArrete:
+                Graph=AjouterArreteGraph(Graph,ajout[0],ajout[1])
+                print(str(ajout[0]) + " " + str(ajout[1]))
+
+
+
+
 for s in Graph:
     Clique=GetClique(Graph,s)
-    print(Clique)
-    print(VoisinCliqueFortementConnecte(Graph,Clique,2))
+    # ArreteAdd=VoisinCliqueFortementConnecte(Graph,Clique,1)
+    # if (ArreteAdd is not None) and (len(ArreteAdd)>0):
+    #     for ajout in ArreteAdd:#Definir le critère en fonction de la taille de la clique
+    #         Graph=AjouterArreteGraph(Graph,ajout[0],ajout[1])
+    #         print(str(ajout[0]) + " " + str(ajout[1]))
+    #     Clique=GetClique(Graph,s)
     for v in Clique:
         if len(Clique)-1<GetDegreNode(Graph,v):
             ListeASupprimer=set()
@@ -143,7 +161,7 @@ for s in Graph:
             ListeASupprimer=list(ListeASupprimer)
             for w in ListeASupprimer:
                 Graph=SupprimerArreteGraph(Graph,v,w)
-                #print(str(v) + " " + str(w))
+                print(str(v) + " " + str(w))
         
 
 
