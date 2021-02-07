@@ -127,15 +127,13 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
 
 
 #Permet de classer les sommets par degré, prochaine amélioration
-GraphByDegree=ClasserParDegree(Graph)
+#GraphByDegree=ClasserParDegree(Graph)
 
 
 #Algo principale de suppression des arrêtes
 #autour des cliques potentielles
 for s in Graph:
     Clique=GetClique(Graph,s)
-    print(Clique)
-    print(VoisinCliqueFortementConnecte(Graph,Clique,2))
     for v in Clique:
         if len(Clique)-1<GetDegreNode(Graph,v):
             ListeASupprimer=set()
@@ -143,7 +141,7 @@ for s in Graph:
             ListeASupprimer=list(ListeASupprimer)
             for w in ListeASupprimer:
                 Graph=SupprimerArreteGraph(Graph,v,w)
-                #print(str(v) + " " + str(w))
+                print(str(v) + " " + str(w))
         
 
 
