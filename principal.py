@@ -130,9 +130,8 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
 GraphByDegree=ClasserParDegree(Graph)
 
 
-#Algo principale de suppression des arrêtes
-#autour des cliques potentielles
-
+#Ajoute les arrêtes pour connecter les sommets fortements
+#connectés à un sous-graphe complet donné
 for s in Graph:
     Alea=random.randint(0,10)
     if Alea<5: 
@@ -145,7 +144,7 @@ for s in Graph:
 
 
 
-
+#Algo de suppression des arrêtes en trop, pour former des cliques
 for s in Graph:
     Clique=GetClique(Graph,s)
     # ArreteAdd=VoisinCliqueFortementConnecte(Graph,Clique,1)
