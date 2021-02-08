@@ -10,9 +10,13 @@ Graph=defaultdict(list)
 
 for line in fileinput.input():
     if line[0].isdigit():
-        line=line.split()
-        Graph[int(line[0])].append(int(line[1]))
-        Graph[int(line[1])].append(int(line[0])) 
+        u,v=(int(a) for a in line.split())
+        if not u in Graph:
+            Graph[u]=[]
+        if not v in Graph:
+            Graph[v]=[]
+        Graph[u].append(v)
+        Graph[v].append(u)
         
 
 fileinput.close()
@@ -84,12 +88,9 @@ def GetClique(Graph,node):
         VoisinsDuVoisin=set(Graph[v])
         if (len(VoisinsDuVoisin & Voisins))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
             ListeClique.add(v)
-    if len(ListeClique)<2:
-        Voisins=list(Voisins)
-        if len(Voisins)>1:
-            ListeClique.add(Voisins[random.randint(0,len(Voisins)-1)])
-        elif len(Voisins)==1:
-            ListeClique.add(Voisins[0])
+    if len(ListeClique)<2 and len(Voisins)>0:
+            Voisin=list(Voisins)
+            ListeClique.add(Voisin[0])
     return list(ListeClique)
 
 
@@ -129,19 +130,29 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
 #Permet de classer les sommets par degré, prochaine amélioration
 #GraphByDegree=ClasserParDegree(Graph)
 
-
+k=0
 #Algo principale de suppression des arrêtes
 #autour des cliques potentielles
-for s in Graph:
-    Clique=GetClique(Graph,s)
-    for v in Clique:
-        if len(Clique)-1<GetDegreNode(Graph,v):
-            ListeASupprimer=set()
-            ListeASupprimer=set(Graph[v])-set(Clique)
-            ListeASupprimer=list(ListeASupprimer)
-            for w in ListeASupprimer:
-                Graph=SupprimerArreteGraph(Graph,v,w)
-                print(str(v) + " " + str(w))
+while k<5:
+    #print("iteration")
+    #print(k)
+    for s in Graph:
+        Clique=GetClique(Graph,s)
+        #print("clique :")
+        #print(Clique)
+        for v in Clique:
+            if len(Clique)-1<GetDegreNode(Graph,v):
+                ListeASupprimer=set()
+                ListeASupprimer=set(Graph[v])-set(Clique)
+                ListeASupprimer=list(ListeASupprimer)
+                #print("sommet :")
+                #print(v)
+                #print("liste a supprimer : ")
+                #print(ListeASupprimer)
+                for w in ListeASupprimer:
+                    Graph=SupprimerArreteGraph(Graph,v,w)
+                    print(str(v) + " " + str(w))
+    k=k+1
         
 
 
