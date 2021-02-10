@@ -6,11 +6,11 @@ cat file.gr | python3 ClusterProg.py > Solution
 Le fichier texte envoyé au programme doit répondre à un certain format. 
 Chaque ligne doit correspondre à une arrête particulière, les sommets étant séparés d'un espace.
 
-Exemple :
-2 3
-2 4
-1 3
-4 1
+<b>Exemple</b> : <br>
+2 3<br>
+2 4<br>
+1 3<br>
+4 1<br>
 
 "Le sommet 2 est lié au sommet 3"...
 
