@@ -5,7 +5,6 @@ from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
 
-Arretes=[]
 Graph=defaultdict(list)
 
 for line in fileinput.input():
@@ -64,9 +63,6 @@ def ListerArreteAjoutee(List,node1,node2):
     List.append((node1,node2))
     return List
 
-
-
-
 def GetDegreNode(Graph,node):
     return len(Graph[node])
 
@@ -75,7 +71,7 @@ def GetVoisins(Graph,node):
     return Graph[node]
 
 
-#Renvoie un sous-graph complet à partir d'un sommet pris dans le Graph
+#Renvoie un sous-graph complet à partir d'un sommet pris dans le Graph.
 def GetClique(Graph,node):
     ListeClique=set()
     ListeClique.add(node)
@@ -84,7 +80,7 @@ def GetClique(Graph,node):
         VoisinsDuVoisin=set(Graph[v])
         if (len(VoisinsDuVoisin & Voisins))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
             ListeClique.add(v)
-    if len(ListeClique)<2:
+    if len(ListeClique)<2:#Complexité inutile, non-changée faute de temps
         Voisins=list(Voisins)
         if len(Voisins)>1:
             ListeClique.add(Voisins[random.randint(0,len(Voisins)-1)])
@@ -92,7 +88,8 @@ def GetClique(Graph,node):
             ListeClique.add(Voisins[0])
     return list(ListeClique)
 
-
+#Vérification des degrés des sommets et des sommets communs
+#Permet de vérifier sommairement si les sommets visités sont bien dans une clique.
 def EstUneClique(Graphe,node):
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
@@ -102,15 +99,18 @@ def EstUneClique(Graphe,node):
         if degSommet/nbrVoisin<1:
             sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
             return False
+        elif degSommet/nbrVoisin>1:
+            sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
     return True
 
-
+#Permettrait un eventuel preprocessing
 def ClasserParDegree(Graph):
     Classement=[]
     for v in Graph:
         Classement.append((v,GetDegreNode(Graph,v)))
     return sorted(Classement,key=itemgetter(1), reverse=True)
 
+#Permettrait a terme de rajouter des sommets "idealement disposes" autour d'une clique potentielle detectee
 def VoisinCliqueFortementConnecte(Graph,cliq,critere):
     ListeArrete=[]
     Liste=[]
@@ -125,9 +125,6 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
                     ListeArrete.append((w,i))
                 return ListeArrete
 
-
-#Permet de classer les sommets par degré, prochaine amélioration
-#GraphByDegree=ClasserParDegree(Graph)
 
 
 #Algo principale de suppression des arrêtes
