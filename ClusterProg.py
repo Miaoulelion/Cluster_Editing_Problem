@@ -96,11 +96,9 @@ def EstUneClique(Graphe,node):
     for v in voisins:
         voisins_2nd=set(Graph[int(v)])
         degSommet=float(len(voisins & voisins_2nd)+1)
-        if degSommet/nbrVoisin<1:
+        if degSommet/nbrVoisin!=1:
             sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
             return False
-        elif degSommet/nbrVoisin>1:
-            sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
     return True
 
 #Permettrait un eventuel preprocessing
