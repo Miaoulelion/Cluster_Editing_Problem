@@ -4,6 +4,9 @@ import sys
 from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
+from time import time
+
+
 
 Arretes=[]
 Graph=defaultdict(list)
@@ -126,48 +129,53 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
                 return ListeArrete
 
 
-#Permet de classer les sommets par degré, prochaine amélioration
-GraphByDegree=ClasserParDegree(Graph)
+def max_seconds(n):
+    start = now = time()
+    while now - start < n:
+        yield now - start
+        now = time()
 
 
-#Ajoute les arrêtes pour connecter les sommets fortements
-#connectés à un sous-graphe complet donné
-for s in Graph:
-    Alea=random.randint(0,10)
-    if Alea<5: 
+k=0
+Graph1=Graph.copy()
+ListeFinale=[]
+TailleListeFinale=100000000000000000
+
+while k<10:
+    k=k+1
+    ListeModification=[]
+    for s in Graph:
+        Alea=random.randint(0,10)
+        if Alea<5: 
+            Clique=GetClique(Graph,s)
+            AjoutArrete=VoisinCliqueFortementConnecte(Graph, Clique,3)
+            if (AjoutArrete is not None) and (len(AjoutArrete)>0) and (len(AjoutArrete)<len(Clique)):
+                for ajout in AjoutArrete:
+                    Graph=AjouterArreteGraph(Graph,ajout[0],ajout[1])
+                    ListeModification.append((ajout[0],ajout[1]))
+    for s in Graph:
         Clique=GetClique(Graph,s)
-        AjoutArrete=VoisinCliqueFortementConnecte(Graph, Clique, 3)
-        if (AjoutArrete is not None) and (len(AjoutArrete)>0) and (len(AjoutArrete)<len(Clique)):
-            for ajout in AjoutArrete:
-                Graph=AjouterArreteGraph(Graph,ajout[0],ajout[1])
-                print(str(ajout[0]) + " " + str(ajout[1]))
+        for v in Clique:
+            if len(Clique)-1<GetDegreNode(Graph,v):
+                ListeASupprimer=set()
+                ListeASupprimer=set(Graph[v])-set(Clique)
+                ListeASupprimer=list(ListeASupprimer)
+                for w in ListeASupprimer:
+                    Graph=SupprimerArreteGraph(Graph,v,w)
+                    ListeModification.append((v,w))
+    if len(ListeModification)<TailleListeFinale:
+        print(ListeModification)
+        ListeFinale=ListeModification.copy()
+        TailleListeFinale=len(ListeFinale)
+    Graph=Graph1.copy()
+    
+    
+
+print(ListeFinale)
+
+for i in range(0,len(ListeFinale)-1):
+    print(str(ListeModification[i][0]) + " " + str(ListeModification[i][1]))
 
 
-
-#Algo de suppression des arrêtes en trop, pour former des cliques
-for s in Graph:
-    Clique=GetClique(Graph,s)
-    # ArreteAdd=VoisinCliqueFortementConnecte(Graph,Clique,1)
-    # if (ArreteAdd is not None) and (len(ArreteAdd)>0):
-    #     for ajout in ArreteAdd:#Definir le critère en fonction de la taille de la clique
-    #         Graph=AjouterArreteGraph(Graph,ajout[0],ajout[1])
-    #         print(str(ajout[0]) + " " + str(ajout[1]))
-    #     Clique=GetClique(Graph,s)
-    for v in Clique:
-        if len(Clique)-1<GetDegreNode(Graph,v):
-            ListeASupprimer=set()
-            ListeASupprimer=set(Graph[v])-set(Clique)
-            ListeASupprimer=list(ListeASupprimer)
-            for w in ListeASupprimer:
-                Graph=SupprimerArreteGraph(Graph,v,w)
-                print(str(v) + " " + str(w))
-        
-
-
-#Vérification si les sommets forment bien des cliques
 for v in Graph:
-    EstUneClique(Graph,v)
-
-
-
-
+    EstUneClique(Graph, v)
