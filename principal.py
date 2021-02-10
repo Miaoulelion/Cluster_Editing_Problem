@@ -102,7 +102,7 @@ def EstUneClique(Graphe,node):
     for v in voisins:
         voisins_2nd=set(Graph[int(v)])
         degSommet=float(len(voisins & voisins_2nd)+1)
-        if degSommet/nbrVoisin<1:
+        if degSommet/nbrVoisin!=1:
             sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
             return False
     return True
@@ -141,8 +141,9 @@ Graph1=Graph.copy()
 ListeFinale=[]
 TailleListeFinale=100000000000000000
 
-while k<10:
+while k<100:
     k=k+1
+    Graph=Graph1.copy()
     ListeModification=[]
     for s in Graph:
         Alea=random.randint(0,10)
@@ -167,15 +168,16 @@ while k<10:
         print(ListeModification)
         ListeFinale=ListeModification.copy()
         TailleListeFinale=len(ListeFinale)
-    Graph=Graph1.copy()
+    
     
     
 
-print(ListeFinale)
+#print(ListeFinale)
 
 for i in range(0,len(ListeFinale)-1):
-    print(str(ListeModification[i][0]) + " " + str(ListeModification[i][1]))
+    print(str(ListeFinale[i][0]) + " " + str(ListeFinale[i][1]))
 
+#print(ListeModification[1])
 
 for v in Graph:
     EstUneClique(Graph, v)
