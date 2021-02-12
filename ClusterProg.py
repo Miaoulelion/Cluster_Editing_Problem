@@ -129,6 +129,13 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
 #autour des cliques potentielles
 for s in Graph:
     Clique=GetClique(Graph,s)
+    Ajouts=VoisinCliqueFortementConnecte(Graph, Clique,1)
+    print("ajout")
+    print(Ajouts)
+    if Ajouts is not None:
+        #print("aj")
+        AjouterArreteGraph(Graph, Ajouts[0][0], Ajouts[0][1])
+        #print(str(Ajouts[0][0]) + " " + str(Ajouts[0][1]))
     for v in Clique:
         if len(Clique)-1<GetDegreNode(Graph,v):
             ListeASupprimer=set()
@@ -136,7 +143,8 @@ for s in Graph:
             ListeASupprimer=list(ListeASupprimer)
             for w in ListeASupprimer:
                 Graph=SupprimerArreteGraph(Graph,v,w)
-                print(str(v) + " " + str(w))
+                #print("supp")
+                #print(str(v) + " " + str(w))
         
 
 
