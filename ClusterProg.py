@@ -19,6 +19,7 @@ for line in fileinput.input():
 fileinput.close()
 
 
+
 def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
     for i in range(0,len(Graph[Name_node_1])):
         if Graph[Name_node_1][i]==Name_node_2:
@@ -66,19 +67,19 @@ def GetVoisins(Graph,node):
 
 #Renvoie un sous-graph complet à partir d'un sommet pris dans le Graph.
 def GetClique(Graph,node):
-    ListeClique=set()
-    ListeClique.add(node)
-    Voisins=set(Graph[node])
-    AllPermutationVoisins=list(permutations(Voisins))
-    for Voisins in AllPermutationVoisins:#Plutôt intervertir seulement le premier sommet avec le reste ! 
-        print(Voisins)# faire sa propre fonction !
+    Voisins=Graph[node]
+    ListeCopie=[]
+    for i in range(0,len(Voisins)):#Plutôt intervertir seulement le premier sommet avec le reste ! 
+        ListeClique=set()
+        ListeClique.add(node)
+        Voisins.insert(0,Voisins.pop())# faire sa propre fonction !
         for v in Voisins:
             VoisinsDuVoisin=set(Graph[v])
-            if (len(VoisinsDuVoisin & set(Voisins)))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
+            if (len(ListeClique - VoisinsDuVoisin))==0:
                 ListeClique.add(v)
-        if len(ListeClique)<2:
-            ListeClique.add(Voisins[0])
-    return list(ListeClique)
+        if len(ListeClique)>len(ListeCopie):
+            ListeCopie=list(ListeClique)
+    return ListeCopie
 
 #Vérification des degrés des sommets et des sommets communs
 #Permet de vérifier sommairement si les sommets visités sont bien dans une clique.
@@ -124,9 +125,9 @@ SommetsVisites=[]
 for s in Graph:
     if s not in SommetsVisites:
         Clique=GetClique(Graph,s)
-        SommetsVisites.append(s)
         for v in Clique:
             if len(Clique)-1<GetDegreNode(Graph,v):
+                SommetsVisites.append(v)
                 ListeASupprimer=set()
                 ListeASupprimer=set(Graph[v])-set(Clique)
                 ListeASupprimer=list(ListeASupprimer)
@@ -134,7 +135,7 @@ for s in Graph:
                     Graph=SupprimerArreteGraph(Graph,v,w)
                     print(str(v)+ " "+str(w))
 
-        
+  
 
 
 #Vérification si les sommets forment bien des cliques
