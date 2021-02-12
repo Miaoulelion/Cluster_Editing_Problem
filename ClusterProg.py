@@ -10,13 +10,10 @@ Graph=defaultdict(list)
 
 for line in fileinput.input():
     if line[0].isdigit():
-        u,v=(int(a) for a in line.split())
-        if not u in Graph:
-            Graph[u]=[]
-        if not v in Graph:
-            Graph[v]=[]
-        Graph[u].append(v)
-        Graph[v].append(u)
+        line=line.split()
+        Graph[int(line[0])].append(int(line[1]))
+        Graph[int(line[1])].append(int(line[0])) 
+        
         
 
 fileinput.close()
