@@ -4,6 +4,7 @@ import sys
 from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
+from itertools import permutations
 
 Graph=defaultdict(list)
 
@@ -67,15 +68,14 @@ def GetClique(Graph,node):
     ListeClique=set()
     ListeClique.add(node)
     Voisins=set(Graph[node])
-    for v in Voisins:
-        VoisinsDuVoisin=set(Graph[v])
-        if (len(VoisinsDuVoisin & Voisins))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
-            ListeClique.add(v)
-    if len(ListeClique)<2:
-        Voisins=list(Voisins)
-        if len(Voisins)>1:
-            ListeClique.add(Voisins[random.randint(0,len(Voisins)-1)])
-        elif len(Voisins)==1:
+    AllPermutationVoisins=list(permutations(Voisins))
+    for Voisins in AllPermutationVoisins:#Plutôt intervertir seulement le premier sommet avec le reste ! 
+        print(Voisins)# faire sa propre fonction !
+        for v in Voisins:
+            VoisinsDuVoisin=set(Graph[v])
+            if (len(VoisinsDuVoisin & set(Voisins)))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
+                ListeClique.add(v)
+        if len(ListeClique)<2:
             ListeClique.add(Voisins[0])
     return list(ListeClique)
 
@@ -88,7 +88,6 @@ def EstUneClique(Graphe,node):
         voisins_2nd=set(Graph[v])
         degSommetCommun=float(len(voisins & voisins_2nd)+1)
         degSommet=float(len(voisins_2nd))
-        print(degSommet)
         if degSommet/nbrVoisin!=1.0 or degSommetCommun/nbrVoisin!=1.0:
             sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
             return False
