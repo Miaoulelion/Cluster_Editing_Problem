@@ -17,15 +17,6 @@ for line in fileinput.input():
 fileinput.close()
 
 
-def CreerGraphe(Arretes):
-    Graph=defaultdict(list)
-    for node1, node2 in Arretes:
-        Graph[node1].append(node2)
-        Graph[node2].append(node1)
-    return Graph
-
-
-
 def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
     for i in range(0,len(Graph[Name_node_1])):
         if Graph[Name_node_1][i]==Name_node_2:
@@ -80,7 +71,7 @@ def GetClique(Graph,node):
         VoisinsDuVoisin=set(Graph[v])
         if (len(VoisinsDuVoisin & Voisins))>0 and (len(ListeClique - VoisinsDuVoisin))==0:
             ListeClique.add(v)
-    if len(ListeClique)<2:#Complexité inutile, non-changée faute de temps
+    if len(ListeClique)<2:
         Voisins=list(Voisins)
         if len(Voisins)>1:
             ListeClique.add(Voisins[random.randint(0,len(Voisins)-1)])
@@ -94,9 +85,11 @@ def EstUneClique(Graphe,node):
     voisins=set(Graph[node])
     nbrVoisin=float(len(voisins))
     for v in voisins:
-        voisins_2nd=set(Graph[int(v)])
-        degSommet=float(len(voisins & voisins_2nd)+1)
-        if degSommet/nbrVoisin!=1:
+        voisins_2nd=set(Graph[v])
+        degSommetCommun=float(len(voisins & voisins_2nd)+1)
+        degSommet=float(len(voisins_2nd))
+        print(degSommet)
+        if degSommet/nbrVoisin!=1.0 or degSommetCommun/nbrVoisin!=1.0:
             sys.stderr.write("Ce n'est pas une clique : " + str(node) + "\n")
             return False
     return True
@@ -124,19 +117,22 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
                 return ListeArrete
 
 
+SommetsVisites=[]
 
 #Algo principale de suppression des arrêtes
 #autour des cliques potentielles
 for s in Graph:
-    Clique=GetClique(Graph,s)
-    for v in Clique:
-        if len(Clique)-1<GetDegreNode(Graph,v):
-            ListeASupprimer=set()
-            ListeASupprimer=set(Graph[v])-set(Clique)
-            ListeASupprimer=list(ListeASupprimer)
-            for w in ListeASupprimer:
-                Graph=SupprimerArreteGraph(Graph,v,w)
-                print(str(v)+ " "+str(w))
+    if s not in SommetsVisites:
+        Clique=GetClique(Graph,s)
+        SommetsVisites.append(s)
+        for v in Clique:
+            if len(Clique)-1<GetDegreNode(Graph,v):
+                ListeASupprimer=set()
+                ListeASupprimer=set(Graph[v])-set(Clique)
+                ListeASupprimer=list(ListeASupprimer)
+                for w in ListeASupprimer:
+                    Graph=SupprimerArreteGraph(Graph,v,w)
+                    print(str(v)+ " "+str(w))
 
         
 
