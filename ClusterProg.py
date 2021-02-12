@@ -136,6 +136,7 @@ for s in Graph:
             ListeASupprimer=list(ListeASupprimer)
             for w in ListeASupprimer:
                 Graph=SupprimerArreteGraph(Graph,v,w)
+                print(str(v)+ " "+str(w))
 
         
 
