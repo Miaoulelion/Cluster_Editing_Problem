@@ -69,10 +69,10 @@ def GetVoisins(Graph,node):
 def GetClique(Graph,node):
     Voisins=Graph[node]
     ListeCopie=[]
-    for i in range(0,len(Voisins)):#Plutôt intervertir seulement le premier sommet avec le reste ! 
+    for i in range(0,len(Voisins)): 
         ListeClique=set()
         ListeClique.add(node)
-        Voisins.insert(0,Voisins.pop())# faire sa propre fonction !
+        Voisins.insert(0,Voisins.pop())
         for v in Voisins:
             VoisinsDuVoisin=set(Graph[v])
             if (len(ListeClique - VoisinsDuVoisin))==0:
@@ -117,12 +117,22 @@ def VoisinCliqueFortementConnecte(Graph,cliq,critere):
                     ListeArrete.append((w,i))
                 return ListeArrete
 
+def GetNbConnexionsManquantes(Graph,ListeSommets,Sommet):
+    Liste=set(ListeSommets)
+    VoisinSommet=set(Graph[Sommet])
+    return len(Liste - VoisinSommet)
+
+
 
 SommetsVisites=[]
 
 #Algo principale de suppression des arrêtes
 #autour des cliques potentielles
 for s in Graph:
+    # Ajouts=VoisinCliqueFortementConnecte(Graph,GetClique(Graph,s),1)
+    # if Ajouts is not None:
+    #     Graph=AjouterArreteGraph(Graph,Ajouts[0][0],Ajouts[0][1])
+    #     print(str(Ajouts[0][0]) + " " + str(Ajouts[0][1]))
     if s not in SommetsVisites:
         Clique=GetClique(Graph,s)
         for v in Clique:
