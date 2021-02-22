@@ -1,10 +1,6 @@
-import random
-from copy import copy
 import sys
-from operator import itemgetter, attrgetter
 from collections import defaultdict
 import fileinput
-from itertools import permutations
 
 Graph=defaultdict(list)
 
@@ -15,9 +11,7 @@ for line in fileinput.input():
         Graph[int(line[1])].append(int(line[0])) 
         
         
-
 fileinput.close()
-
 
 
 def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
@@ -31,41 +25,10 @@ def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
             break
     return Graph
 
-
-def ExisteArreteGraph(Graph,node1,node2):
-    for i in range(0,len(Graph[node1])-1):
-        if Graph[node1][i]==node2:
-            return True
-    #Il serait anormal d'avoir une arrete enregistree seulement pour un sommet.
-    for y in range(0,len(Graph[node2])-1):
-        if Graph[node2][y]==node1:
-            sys.stderr.write("Il se peut qu'il y ait une erreur dans les donnees")
-            return True
-    return False
-
-def AjouterArreteGraph(Graph,Name_node_1,Name_node_2):
-    if not ExisteArreteGraph(Graph,Name_node_1,Name_node_2):
-        Graph[Name_node_1].append(Name_node_2)
-        Graph[Name_node_2].append(Name_node_1)
-    return Graph
-
-def ListerArreteSupprimee(List,node1,node2):
-    List.append((node1,node2))
-    return List
-
-def ListerArreteAjoutee(List,node1,node2):
-    List.append((node1,node2))
-    return List
-
 def GetDegreNode(Graph,node):
     return len(Graph[node])
 
-
-def GetVoisins(Graph,node):
-    return Graph[node]
-
-
-#Renvoie un sous-graph complet à partir d'un sommet pris dans le Graph.
+#Renvoie le plus grand sous-graph complet à partir d'un sommet pris dans le Graph.
 def GetClique(Graph,node):
     Voisins=Graph[node]
     ListeCopie=[]
@@ -95,44 +58,12 @@ def EstUneClique(Graphe,node):
             return False
     return True
 
-#Permettrait un eventuel preprocessing
-def ClasserParDegree(Graph):
-    Classement=[]
-    for v in Graph:
-        Classement.append((v,GetDegreNode(Graph,v)))
-    return sorted(Classement,key=itemgetter(1), reverse=True)
-
-#Permettrait a terme de rajouter des sommets "idealement disposes" autour d'une clique potentielle detectee
-def VoisinCliqueFortementConnecte(Graph,cliq,critere):
-    ListeArrete=[]
-    Liste=[]
-    Clique=set(cliq)
-    for v in Clique:
-        VoisinClique=set(Graph[v])
-        for w in (VoisinClique - Clique):
-            if len(Clique - set(Graph[w]))<=critere and not(w in Liste):
-                Liste.append(w)
-                nonAdj_node_cliq=list(Clique - set(Graph[w]))
-                for i in nonAdj_node_cliq:
-                    ListeArrete.append((w,i))
-                return ListeArrete
-
-def GetNbConnexionsManquantes(Graph,ListeSommets,Sommet):
-    Liste=set(ListeSommets)
-    VoisinSommet=set(Graph[Sommet])
-    return len(Liste - VoisinSommet)
-
-
 
 SommetsVisites=[]
 
 #Algo principale de suppression des arrêtes
 #autour des cliques potentielles
 for s in Graph:
-    # Ajouts=VoisinCliqueFortementConnecte(Graph,GetClique(Graph,s),1)
-    # if Ajouts is not None:
-    #     Graph=AjouterArreteGraph(Graph,Ajouts[0][0],Ajouts[0][1])
-    #     print(str(Ajouts[0][0]) + " " + str(Ajouts[0][1]))
     if s not in SommetsVisites:
         Clique=GetClique(Graph,s)
         for v in Clique:
@@ -145,10 +76,8 @@ for s in Graph:
                     Graph=SupprimerArreteGraph(Graph,v,w)
                     print(str(v)+ " "+str(w))
 
-  
 
-
-#Vérification si les sommets forment bien des cliques
+#Vérification si les sommets du graph forment bien des unions de cliques
 for v in Graph:
     EstUneClique(Graph,v)
 
