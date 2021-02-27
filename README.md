@@ -19,4 +19,4 @@ Chaque ligne doit correspondre à une arrête particulière, les sommets étant 
 
 "Le sommet 2 est lié au sommet 3"...
 
-Le fichier "Solution" contiendra toutes les éditions (ajouts et <b>suppressions</b>) d'arrêtes nécessaires à l'obtention d'une union de cliques.
+Le fichier "Solution" contiendra toutes les éditions (suppressions) d'arrêtes nécessaires à l'obtention d'une union de cliques.
