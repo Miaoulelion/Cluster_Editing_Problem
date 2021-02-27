@@ -1,10 +1,12 @@
 
-@uteurs : MiaouLelion & nael93260
+<h1>ClusterProg : Cluster editing problem</h1>
+
+<b>@uteurs :<b> MiaouLelion & nael93260
 
 Le programme "ClusterProg" permet de créer une union de cliques à partir d'un Graph quelconque.
 
 L'exécution du programme se fait grâce à la commande suivante :
-cat file.gr | python3 ClusterProg.py > Solution
+<i>cat file.gr | python3 ClusterProg.py > Solution.txt</i>
 
 Le fichier texte envoyé au programme doit répondre à un certain format. 
 Chaque ligne doit correspondre à une arrête particulière, les sommets étant séparés d'un espace.
