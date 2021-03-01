@@ -1,7 +1,7 @@
 
 <h1>ClusterProg : Cluster editing problem</h1>
 
-<b>@uteurs :</b> MiaouLelion & nael93260 (<a href="https://github.com/nael93260">Github</a>)
+<b>Auteurs :</b> MiaouLelion & nael93260 (<a href="https://github.com/nael93260">Github</a>)
 
 Le programme "ClusterProg" permet de créer une union de cliques à partir d'un Graph quelconque.
 
