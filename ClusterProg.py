@@ -66,9 +66,9 @@ SommetsVisites=[]
 for s in Graph:
     if s not in SommetsVisites:
         Clique=GetClique(Graph,s)
+        SommetsVisites.append(s)
         for v in Clique:
             if len(Clique)-1<GetDegreNode(Graph,v):
-                SommetsVisites.append(v)
                 ListeASupprimer=set()
                 ListeASupprimer=set(Graph[v])-set(Clique)
                 ListeASupprimer=list(ListeASupprimer)
