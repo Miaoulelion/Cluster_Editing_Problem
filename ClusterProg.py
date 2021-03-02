@@ -2,17 +2,15 @@ import sys
 from collections import defaultdict
 import fileinput
 
+#Constituion du graph sous forme de dictionnaire.
 Graph=defaultdict(list)
-
 for line in fileinput.input():
     if line[0].isdigit():
         line=line.split()
         Graph[int(line[0])].append(int(line[1]))
         Graph[int(line[1])].append(int(line[0])) 
         
-        
 fileinput.close()
-
 
 def SupprimerArreteGraph(Graph,Name_node_1,Name_node_2):
     for i in range(0,len(Graph[Name_node_1])):
@@ -29,7 +27,7 @@ def GetDegreNode(Graph,node):
     return len(Graph[node])
 
 #Renvoie le plus grand sous-graph complet à partir d'un sommet pris dans le Graph.
-def GetClique(Graph,node):
+def GetCliqueMax(Graph,node):
     Voisins=Graph[node]
     ListeCopie=[]
     for i in range(0,len(Voisins)): 
@@ -61,11 +59,10 @@ def EstUneClique(Graphe,node):
 
 SommetsVisites=[]
 
-#Algo principale de suppression des arrêtes
-#autour des cliques potentielles
+#Algo principale de suppression des arrêtes "en dehors" des cliques détectées.
 for s in Graph:
     if s not in SommetsVisites:
-        Clique=GetClique(Graph,s)
+        Clique=GetCliqueMax(Graph,s)
         SommetsVisites.append(s)
         for v in Clique:
             if len(Clique)-1<GetDegreNode(Graph,v):
@@ -75,7 +72,6 @@ for s in Graph:
                 for w in ListeASupprimer:
                     Graph=SupprimerArreteGraph(Graph,v,w)
                     print(str(v)+ " "+str(w))
-
 
 #Vérification si les sommets du graph forment bien des unions de cliques
 for v in Graph:
