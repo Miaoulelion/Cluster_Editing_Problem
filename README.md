@@ -8,8 +8,9 @@ Le programme "ClusterProg" permet de créer une union de cliques à partir d'un 
 L'exécution du programme se fait grâce à la commande suivante :
 <i>cat file.gr | python3 ClusterProg.py > Solution.txt</i>
 
-Le fichier texte envoyé au programme doit répondre à un certain format. 
+Le fichier texte envoyé au programme (file.gr ici) doit répondre à un certain format. 
 Chaque ligne doit correspondre à une arrête particulière, les sommets étant séparés d'un espace.
+Des instances d'essais sont disponibles dans le dossier "instances".
 
 <b>Exemple</b> : <br>
 2 3<br>
@@ -19,4 +20,4 @@ Chaque ligne doit correspondre à une arrête particulière, les sommets étant 
 
 "Le sommet 2 est lié au sommet 3"...
 
-Le fichier "Solution" contiendra toutes les éditions (suppressions) d'arrêtes nécessaires à l'obtention d'une union de cliques.
+Le fichier "Solution.txt" contiendra toutes les éditions (suppressions) d'arrêtes nécessaires à l'obtention d'une union de cliques.
